@@ -1,2 +1,2 @@
-windows-curses==2.2.0;sys_platform == 'Windows'
+windows-curses==2.2.0;platform_system == "Windows"
 pygame==2.0.1
