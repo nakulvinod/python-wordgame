@@ -3,6 +3,7 @@ import curses
 import os
 from random import randint,choice
 import pygame
+import requests
 
 #sound player#
 def playSound(file):
@@ -16,7 +17,7 @@ def playSound(file):
 class Game:  
 
    #data#
-   words =["pencil","laptop","amphibian","concrete","fabulous","minecraft","cube","chandelier","house","television"]
+   words = None
    game_screen=None
    life_screen=None
    main=None
@@ -37,6 +38,9 @@ class Game:
 
    def init(self):
 
+
+      response = requests.get("https://random-word-api.herokuapp.com/word?number=100&swear=0")
+      self.words=response.json()
       #screen init#
       self.main = curses.initscr()
       
@@ -87,6 +91,8 @@ class Game:
       if self.current_y==self.max_y-1:
          remaining_letters = len(self.selected_word) -self.selected_word.count("*")
          self.life-=remaining_letters*self.LIFE_DEGRADE_FACTOR
+         if self.life <= 0:
+            self.life = 0
          playSound("explosion.wav")
          self.newWord()
 
@@ -127,7 +133,6 @@ class Game:
       
       #checks if life is zero and returns 1 to end the game#
       if self.life<=0:  
-         self.life=0
          return 1
       
       #resize's the life bar 
