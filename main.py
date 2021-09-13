@@ -60,7 +60,7 @@ def welcome():
   ██ ███ ██ ██    ██ ██   ██ ██   ██     ██   ██ ██   ██    ██       ██    ██      ██      
    ███ ███   ██████  ██   ██ ██████      ██████  ██   ██    ██       ██    ███████ ███████ 
                                                                                                                                
-                     Press ENTER to start   Press h : how to play"""                   ,
+      [Press Esc to exit]           [Press ENTER to start]          [Press h for help]"""                   ,
 curses.color_pair(10)
 )
    screen_one.border()
@@ -76,6 +76,9 @@ curses.color_pair(10)
 welcome()
 while True:
    key=main.getch()
+   if key==27:
+      curses.endwin()
+      exit()
    if key==10:
       # if enter key is pressed start the game#
       break
@@ -90,6 +93,8 @@ while True:
             screen_three.clear()
             welcome()
             break
+
+#27=ESC,10=enter key,104=H key#
       
 
      
