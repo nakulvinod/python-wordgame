@@ -39,6 +39,8 @@ life by **5**.
 * <del>More random words 
 * Screen alignment
 # Credits
-   Thanks [sfxr.me](https://sfxr.me) for providing sounds
+* Thanks [sfxr.me](https://sfxr.me) for providing sounds
 
-   Thanks to the [Pygame](https://www.pygame.org/) for providing their libary.
+* Thanks to the [Pygame](https://www.pygame.org/) for providing their libary.
+
+* Random words generated using [random-word-api.herokuapp.com](https://random-word-api.herokuapp.com/home)
