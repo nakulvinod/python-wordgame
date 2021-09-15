@@ -17,12 +17,27 @@ life by **5**.
 
    python main.py
    ```
+# Screenshots
+
+## Home screen
+   ![home screen](./screenshots/home_screen.png)
+## Game screen
+   ![Game screen](./screenshots/game_screen_one.png)
+   ![Game screen](./screenshots/game_screen_two.png)
+## Game over
+   ![Game over](./screenshots/game_over_screen.png)
+## Help screen
+   ![Help screen](./screenshots/how_to_play_screen.png)
+
+##  
+
 # History
 ## Version 1.0.0
 * Initial release
 
 # TODO
-* More random words
+* <del>More random words 
+* Screen alignment
 # Credits
    Thanks [sfxr.me](https://sfxr.me) for providing sounds
 
