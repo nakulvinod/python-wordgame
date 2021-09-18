@@ -1,19 +1,53 @@
 #imports#
+import keyboard
+from sys import platform
 from libs.game import Game
 from time import sleep
 import curses
 
+
+#functions#
+
+def print(text,screen):
+   
+   screen.clear()
+   screen.bkgd(" ",curses.color_pair(10))
+   screen.addstr(1,1,str(text),curses.color_pair(10))
+   screen.border()
+   screen.refresh()
+
+def full_screen():
+   
+   if platform=="win32" or "win64":
+      keyboard.press('f11')
+   elif platform == "linux" or platform == "linux2":
+      keyboard.press('alt+f10')
+   elif platform=="darwin":
+      keyboard.press('Control+Command+F')
+
+
 #main init#
 
 game =  Game()
+full_screen()
 game.init()
 main = curses.initscr()
-screen_two=curses.newwin(15,80,int(curses.LINES/4),int(curses.COLS / 6))
+screen_two=curses.newwin(17,93,int(curses.LINES/4),int(curses.COLS / 6))
 screen_one=curses.newwin(17,93,int(curses.LINES/4),int(curses.COLS / 6-7))
 screen_three=curses.newwin(17,93,int(curses.LINES/4),int(curses.COLS / 6-7))
 curses.noecho()
 curses.curs_set(0)
 screen_two.nodelay(True)
+word_battle="""
+   ██     ██  ██████  ██████  ██████      ██████   █████  ████████ ████████ ██      ███████ 
+   ██     ██ ██    ██ ██   ██ ██   ██     ██   ██ ██   ██    ██       ██    ██      ██      
+   ██  █  ██ ██    ██ ██████  ██   ██     ██████  ███████    ██       ██    ██      █████   
+   ██ ███ ██ ██    ██ ██   ██ ██   ██     ██   ██ ██   ██    ██       ██    ██      ██      
+    ███ ███   ██████  ██   ██ ██████      ██████  ██   ██    ██       ██    ███████ ███████ 
+                                                                                                     
+      [Press Esc to exit]           [Press ENTER to start]          [Press h for help]"""
+
+
 
 
 
@@ -26,12 +60,30 @@ curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_RED)
 curses.init_pair(5, curses.COLOR_BLUE, curses.COLOR_BLUE)
 curses.init_pair(10, curses.COLOR_BLACK, curses.COLOR_YELLOW)
 
-#functions#
-def how_to_play():
-   screen_one.clear()
-   screen_three.clear()
-   screen_three.bkgd(" ",curses.color_pair(10))
-   screen_three.addstr(1,1,"""
+ 
+ 
+#menu#
+
+
+
+
+
+
+print(str(word_battle),screen_one)
+while True:
+   key=main.getch()
+   if key==27:
+      full_screen()
+      curses.endwin()
+      exit()
+   if key==10:
+      # if enter key is pressed start the game#
+      break
+   elif key==104:
+      screen_three.clear()
+      screen_one.clear()
+
+      print("""
    ▄▀█ █▄▄ █▀█ █░█ ▀█▀  ▀█▀ █░█ █▀▀  █▀▀ ▄▀█ █▀▄▀█ █▀▀
    █▀█ █▄█ █▄█ █▄█ ░█░  ░█░ █▀█ ██▄  █▄█ █▀█ █░▀░█ ██▄
    
@@ -44,64 +96,24 @@ def how_to_play():
          Each time a letter reach the bottom will reduce your
          life by 5.
 
-         Press ESC to go back.""",curses.color_pair(10))
-   screen_three.border()
-   screen_three.refresh()
-
-def welcome():
-   screen_three.clear()
-   screen_one.refresh()
-   screen_one.bkgd(" ",curses.color_pair(10))
-   screen_one.addstr(3,1,"""
-   
-  ██     ██  ██████  ██████  ██████      ██████   █████  ████████ ████████ ██      ███████ 
-  ██     ██ ██    ██ ██   ██ ██   ██     ██   ██ ██   ██    ██       ██    ██      ██      
-  ██  █  ██ ██    ██ ██████  ██   ██     ██████  ███████    ██       ██    ██      █████   
-  ██ ███ ██ ██    ██ ██   ██ ██   ██     ██   ██ ██   ██    ██       ██    ██      ██      
-   ███ ███   ██████  ██   ██ ██████      ██████  ██   ██    ██       ██    ███████ ███████ 
-                                                                                                                               
-      [Press Esc to exit]           [Press ENTER to start]          [Press h for help]"""                   ,
-curses.color_pair(10)
-)
-   screen_one.border()
-   screen_one.refresh()
- 
-
-
-
-
-
-#menu#
-
-welcome()
-while True:
-   key=main.getch()
-   if key==27:
-      curses.endwin()
-      exit()
-   if key==10:
-      # if enter key is pressed start the game#
-      break
-   elif key==104:
-      screen_three.clear()
-      screen_one.clear()
-      how_to_play()
+         Press ESC to go back.""",screen_three)      
       # key handler for help screen#
       while True:
          key=main.getch()
          if key==27:
             screen_three.clear()
-            welcome()
+            
+            print(str(word_battle),screen_one)
             break
 
 #27=ESC,10=enter key,104=H key#
-      
 
-     
-            
 
-  
-      
+
+
+
+
+
 
 
 #game#
@@ -128,31 +140,28 @@ while True:
    #line to except the keyboard interrupt and show game over instead#
    except KeyboardInterrupt:
       break
+   except ConnectionRefusedError:
+      print("Please check ypur network connection.")
 
 
 #game over screen#
 game.main.clear()
+
 screen_two.nodelay(False)
 curses.echo()
-screen_two.bkgd(' ',curses.color_pair(10))
+main.bkgd(curses.COLOR_BLACK)
+print("""
 
-screen_two.addstr(1,1,"""
+            ██████  █████  ███    ███ ███████    ██████  ██    ██ ███████ ██████  
+          ██       ██   ██ ████  ████ ██        ██    ██ ██    ██ ██      ██   ██ 
+          ██   ███ ███████ ██ ████ ██ █████     ██    ██ ██    ██ █████   ██████  
+          ██    ██ ██   ██ ██  ██  ██ ██        ██    ██  ██  ██  ██      ██   ██ 
+           ██████  ██   ██ ██      ██ ███████    ██████    ████   ███████ ██   ██ 
+                                                                                                                         
 
-     ██████  █████  ███    ███ ███████    ██████  ██    ██ ███████ ██████  
-   ██       ██   ██ ████  ████ ██        ██    ██ ██    ██ ██      ██   ██ 
-   ██   ███ ███████ ██ ████ ██ █████     ██    ██ ██    ██ █████   ██████  
-   ██    ██ ██   ██ ██  ██  ██ ██        ██    ██  ██  ██  ██      ██   ██ 
-    ██████  ██   ██ ██      ██ ███████    ██████    ████   ███████ ██   ██ 
-                                                                            
-                                                                           
-
-                              Press any key to exit""",
-curses.color_pair(10)
-)
-screen_two.border()
-screen_two.refresh()
-   
+                                 [Press any key to exit]""",screen_two)
 screen_two.getch()
+keyboard.press('f11')
 
 #command to end game#
 curses.endwin()

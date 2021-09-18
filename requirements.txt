@@ -1,3 +1,4 @@
 windows-curses==2.2.0;platform_system == "Windows"
 pygame==2.0.1
 requests== 2.26.0
+keyboard== 0.13.5
