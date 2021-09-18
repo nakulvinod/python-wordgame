@@ -38,8 +38,12 @@ class Game:
 
    def init(self):
 
-
-      response = requests.get("https://random-word-api.herokuapp.com/word?number=100&swear=0")
+      try:
+         response = requests.get("https://random-word-api.herokuapp.com/word?number=100&swear=0")
+      except:
+         print("""Unable to download words from https://random-word-api.herokuapp.com.
+                  Please check your internet connection.""")
+         exit(1)
       self.words=response.json()
       #screen init#
       self.main = curses.initscr()

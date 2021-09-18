@@ -1,4 +1,7 @@
 #imports#
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
+
 from libs.game import Game
 from time import sleep
 import curses
