@@ -7,8 +7,10 @@ import curses
 
 game =  Game()
 game.init()
-main = curses.initscr()
+main_screen = curses.initscr()
+main_screen.keypad(True)
 screen_two=curses.newwin(15,80,int(curses.LINES/4),int(curses.COLS / 6))
+screen_two.keypad(True)
 screen_one=curses.newwin(17,93,int(curses.LINES/4),int(curses.COLS / 6-7))
 screen_three=curses.newwin(17,93,int(curses.LINES/4),int(curses.COLS / 6-7))
 curses.noecho()
@@ -75,11 +77,11 @@ curses.color_pair(10)
 
 welcome()
 while True:
-   key=main.getch()
+   key=main_screen.getch()   
    if key==27:
-      curses.endwin()
-      exit()
-   if key==10:
+     curses.endwin()
+     exit()
+   elif key==10:
       # if enter key is pressed start the game#
       break
    elif key==104:
@@ -88,7 +90,7 @@ while True:
       how_to_play()
       # key handler for help screen#
       while True:
-         key=main.getch()
+         key=main_screen.getch()
          if key==27:
             screen_three.clear()
             welcome()
