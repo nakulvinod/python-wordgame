@@ -1,6 +1,5 @@
 #imports#
 import curses
-
 import os
 from random import randint,choice
 import pygame
@@ -40,7 +39,7 @@ class Game:
    def init(self):
 
 
-      response = requests.get("https://random-word-api.herokuapp.com/word?number=1000&swear=0")
+      response = requests.get("https://random-word-api.herokuapp.com/word?number=100&swear=0")
       self.words=response.json()
       #screen init#
       self.main = curses.initscr()
@@ -162,7 +161,7 @@ class Game:
       self.random_colour=randint(1, 7)
       self.pair_cur_index += 1
       self.selected_word = choice(self.words)
-      self.current_x = randint(0,self.max_x-len(self.selected_word)-1)
+      self.current_x = randint(0,self.max_x-len(self.selected_word))
       self.current_y = 2
 
 
